@@ -22,5 +22,23 @@ async function createEmployee(req, res, next) {
         }
     }
 }
+async function getEmployees(req,res,next){
+    try {
+        const page = Number(req.query.page);
+        const limit = Number(req.query.limit);
+        
+        const employees = await employeeService.getEmployees(page, limit);
+        res.status(200).json({
+            totalEmployees:employees.total,
+            page:page,
+            limit:limit,
+            employees:employees.rows
+            
+        });
+    } catch (error) {
+        res.status(400).json({ error: "something went wrong" });
+    }
 
-module.exports = {createEmployee};
+}
+
+module.exports = {createEmployee,getEmployees}
