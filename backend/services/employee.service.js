@@ -113,4 +113,41 @@ return empoyeeData
 
 }
 
-module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail}    // Export the functions
+async function getEmployees(page, limit) {
+    try {
+
+        const offset = (page - 1) * limit;
+        const sql = `
+        SELECT 
+            e.employee_id, 
+            e.employee_email, 
+            e.active_employee, 
+            e.added_date,
+            ei.employee_first_name, 
+            ei.employee_last_name, 
+            ei.employee_phone, 
+            er.company_role_id
+        FROM 
+            employee e
+        JOIN 
+            employee_info ei ON e.employee_id = ei.employee_id
+        JOIN 
+            employee_role er ON e.employee_id = er.employee_id
+        LIMIT ?, ?;`;
+
+    const sql2=`SELECT COUNT(*) as total FROM employee`
+    const [{total}]=await query(sql2)
+
+    const rows = await query(sql, [offset, limit]);
+
+       return {rows,total};
+        
+    } catch (error) {
+       throw new Error("Something went wrong")
+        
+    }
+}
+    
+
+
+module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees}    // Export the functions
