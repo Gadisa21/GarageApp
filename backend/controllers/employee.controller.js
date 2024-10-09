@@ -60,4 +60,22 @@ async function getEmployeeById(req,res,next){
     }
 }
 
-module.exports = {createEmployee,getEmployees,getEmployeeById}
+async function updateEmployee(req,res,next){
+ 
+    try {
+        const employee = await employeeService.updateEmployee(req.body);
+
+        if (employee) {
+            res.status(200).json({ success: "true" });}
+            else{
+                res.status(400).json({error: "Faild to update employee" });
+            }
+        
+    } catch (error) {
+        console.log("error",error);
+        res.status(400).json({ error: "something went wrong" });
+        
+    }
+}
+
+module.exports = {createEmployee,getEmployees,getEmployeeById,updateEmployee};
