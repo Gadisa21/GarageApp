@@ -147,7 +147,42 @@ async function getEmployees(page, limit) {
         
     }
 }
+
+async function getEmployeeById(id) {
+    try {
+        const sql = `
+        SELECT 
+            e.employee_id, 
+            e.employee_email, 
+            e.active_employee, 
+            e.added_date,
+            ei.employee_first_name, 
+            ei.employee_last_name, 
+            ei.employee_phone, 
+            er.company_role_id
+        FROM 
+            employee e
+        JOIN 
+            employee_info ei ON e.employee_id = ei.employee_id
+        JOIN 
+            employee_role er ON e.employee_id = er.employee_id
+        WHERE 
+            e.employee_id = ?;
+        `;
+
+        
+        const employeeData = await query(sql, [id]);
+
+      
+        return employeeData;
+    } catch (error) {
+        console.error("Error fetching employee by ID:", error);
+        throw new Error("Something went wrong");
+    }
+}
+
+
     
 
 
-module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees}    // Export the functions
+module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees,getEmployeeById}    // Export the functions

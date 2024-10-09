@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `employee_pass` (
 
 CREATE TABLE IF NOT EXISTS `employee_role` (
   `employee_role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `employee_id` int(11) NOT NULL,
+  `employee_id` int(11) NOT NULL UNIQUE,
   `company_role_id` int(11) NOT NULL,
   PRIMARY KEY (employee_role_id),
   FOREIGN KEY (employee_id) REFERENCES employee(employee_id),
