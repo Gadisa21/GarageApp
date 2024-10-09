@@ -10,4 +10,6 @@ router.get("/api/employee",[authMiddleware.verifToken,authMiddleware.isAdmin],em
 
 router.get("/api/employee/:id",[authMiddleware.verifToken,authMiddleware.isAdmin],employeeController.getEmployeeById);
 
+router.put("/api/employee",[authMiddleware.verifToken,authMiddleware.isAdmin],employeeController.updateEmployee);
+
 module.exports=router;

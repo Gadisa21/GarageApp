@@ -40,7 +40,7 @@ const isAdmin=async (req,res,next)=>{
 
     const employee=await employeeService.getEmployeeByEmail(email)
 
-    if(employee[0].company_role_id===3){
+    if(employee[0]?.company_role_id===3){
         next()
     }else{
         res.status(403).send({

@@ -181,8 +181,57 @@ async function getEmployeeById(id) {
     }
 }
 
+async function updateEmployee(employee) {
+    const updatedEmployee = {};
+    const connection = await getConnection();  // Get a connection from the pool
+    try {
+        // Start transaction
+        await connection.beginTransaction();
+
+        // First query: Update employee table
+        const query1 = "UPDATE employee SET employee_email = ?, active_employee = ? WHERE employee_id = ?";
+        const [rows1] = await connection.query(query1, [employee.employee_email, employee.active_employee, employee.employee_id]);
+
+        if (rows1.affectedRows !== 1) {
+            throw new Error('Failed to update employee.');
+        }
+
+        // Second query: Update employee_info table
+        const query2 = "UPDATE employee_info SET employee_first_name = ?, employee_last_name = ?, employee_phone = ? WHERE employee_id = ?";
+        const [rows2] = await connection.query(query2, [employee.employee_first_name, employee.employee_last_name, employee.employee_phone, employee.employee_id]);
+
+        if (rows2.affectedRows !== 1) {
+            throw new Error('Failed to update employee info.');
+        }
+
+        // Third query: Update employee_role table
+        const query3 = "UPDATE employee_role SET company_role_id = ? WHERE employee_id = ?";
+        const [rows3] = await connection.query(query3, [employee.company_role_id, employee.employee_id]);
+
+        if (rows3.affectedRows !== 1) {
+            throw new Error('Failed to update employee role.');
+        }
+
+        // If all queries succeeded, commit the transaction
+        await connection.commit();
+
+        // Store employee ID in updatedEmployee object
+        updatedEmployee.employeeId = employee.employee_id;
+    } catch (error) {
+        // If any query fails, rollback the transaction
+        await connection.rollback();
+        console.error('Transaction failed: ', error);
+        return false;
+    } finally {
+        // Release the connection back to the pool
+        connection.release();
+    }
+
+    return updatedEmployee;
+}
+
 
     
 
 
-module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees,getEmployeeById}    // Export the functions
+module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees,getEmployeeById,updateEmployee}    // Export the functions
