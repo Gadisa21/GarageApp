@@ -41,4 +41,23 @@ async function getEmployees(req,res,next){
 
 }
 
-module.exports = {createEmployee,getEmployees}
+async function getEmployeeById(req,res,next){
+    try {
+        const employee = await employeeService.getEmployeeById(req.params.id);
+        if (employee && employee.length>0) {
+            res.status(200).json({
+                status: "success",
+                data:employee});
+        }else{
+            res.status(404).json({
+                status: "fail",
+                 error: "Employee not found" });
+        }
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+             error: "something went wrong" });
+    }
+}
+
+module.exports = {createEmployee,getEmployees,getEmployeeById}
