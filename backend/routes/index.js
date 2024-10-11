@@ -8,10 +8,16 @@ const employeeRouter=require("./employee.routes")
 
 const loginRouter=require("./login.routes")
 
+const serviceRouter=require("./service.routes")
+
 router.use(installRouter)
+
+router.use(loginRouter)
 
 router.use(employeeRouter)
 
-router.use(loginRouter)
+router.use(serviceRouter)
+
+
 
 module.exports=router
