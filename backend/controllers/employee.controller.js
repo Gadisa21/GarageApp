@@ -78,4 +78,18 @@ async function updateEmployee(req,res,next){
     }
 }
 
-module.exports = {createEmployee,getEmployees,getEmployeeById,updateEmployee};
+async function deleteEmployee(req,res,next){
+
+    try {
+        const employee = await employeeService.deleteEmployee(req.params.id);
+        if (employee) {
+            res.status(200).json({ success: "true" });
+        }else{
+            res.status(400).json({error: "Faild to delete employee" });
+        }
+    } catch (error) {
+        res.status(400).json({ error: "something went wrong" });
+    }
+}
+
+module.exports = {createEmployee,getEmployees,getEmployeeById,updateEmployee,deleteEmployee};

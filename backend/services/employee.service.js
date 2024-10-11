@@ -230,8 +230,66 @@ async function updateEmployee(employee) {
     return updatedEmployee;
 }
 
+async function deleteEmployee(id){
+
+    const connection=await getConnection()
+
+    if(!id){
+        return false
+    }
+
+    try {
+  await connection.beginTransaction()
+
+const sql1="DELETE FROM `employee_role` WHERE `employee_id` = ?"
+
+const sql2="DELETE FROM `employee_info` WHERE `employee_id` = ?"
+
+const sql3="DELETE FROM `employee_pass` WHERE `employee_id` = ?"
+
+const sql4="DELETE FROM `employee` WHERE `employee_id` = ?"
+
+   const [row1]=await connection.query(sql1,[id])
+   
+    if(row1.affectedRows!==1){
+        throw new Error("Failed to delete employee role")
+    }
+
+
+
+ const [row2]=await connection.query(sql2,[id])
+
+    if(row2.affectedRows!==1){
+        throw new Error("Failed to delete employee info")
+    }
+
+ const [row3]=await connection.query(sql3,[id])
+
+ if(row3.affectedRows!==1){
+    throw new Error("Failed to delete employee pass")}
+
+const [row4]=await connection.query(sql4,[id])
+
+if(row4.affectedRows!==1){
+    throw new Error("Failed to delete employee")
+}
+
+await connection.commit()
+
+return true
 
     
+    } catch (error) {
+        
+        await connection.rollback()
+        return false
+    } 
+    finally {
+        connection.release();
+    }
+    
+
+}
 
 
-module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees,getEmployeeById,updateEmployee}    // Export the functions
+module.exports={checkIfEmployeeExist,createEmployee,getEmployeeByEmail,getEmployees,getEmployeeById,updateEmployee,deleteEmployee}    // Export the functions
