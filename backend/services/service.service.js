@@ -111,4 +111,30 @@ async function updateService(serviceData){
     }
 }
 
-module.exports={ createService,checkIfServiceExist,getAllServices,getServiceById,updateService}
+async function deleteService(id){
+
+    if(isNaN(id)){
+        throw new Error("Invalid id")
+    }
+
+    try {
+        const sql="DELETE FROM common_services WHERE service_id=?";
+
+        const result=await query(sql,[id]);
+
+        if(result.affectedRows>0){
+            return {status:"true"}
+        }else{
+            throw new Error("Failed to delete service")
+
+        }
+    } catch (error) {
+        
+        console.log("error deleting service",error);
+        throw new Error("Failed to delete service")
+
+    }
+}
+
+
+module.exports={ createService,checkIfServiceExist,getAllServices,getServiceById,updateService,deleteService}
