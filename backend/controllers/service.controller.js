@@ -40,6 +40,22 @@ async function getAllServices(req, res, next) {
     }
 }
 
+async function getServiceById(req, res, next) {
+
+    try {
+        const service = await serviceService.getServiceById(req.params.id);
+
+        if (service) {
+            res.status(200).json({ status: "true", service: service });
+        } else {
+            res.status(400).json({ error: "Failed to get service" });
+        }
+    } catch (error) {
+        console.log("error", error);
+        res.status(400).json({ error: "something went wrong" });
+    }
+}
+
 module.exports = {
-    createService,getAllServices
+    createService,getAllServices,getServiceById
 }
