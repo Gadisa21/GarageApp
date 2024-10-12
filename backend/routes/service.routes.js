@@ -13,6 +13,8 @@ router.get('/api/service',[authMiddleware.verifToken,authMiddleware.isAdmin],ser
 
 router.get('/api/service/:id',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.getServiceById);
 
+router.put('/api/service/',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.updateService);
+
 
 
 

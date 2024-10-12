@@ -90,4 +90,25 @@ async function getServiceById(id){
     }
 }
 
-module.exports={ createService,checkIfServiceExist,getAllServices,getServiceById}
+async function updateService(serviceData){
+
+    const {service_id,service_name,service_description}=serviceData;
+
+    const sql="UPDATE common_services SET service_name=?,service_description=? WHERE service_id=?"
+
+    try {
+        const result=await query(sql,[service_name,service_description,service_id]);
+
+        if(result.affectedRows>0){
+            return {status:"true"}
+        }else{
+            throw new Error("Failed to update service")
+        }
+        
+    } catch (error) {
+        console.log("error updating service",error);
+        throw new Error("Failed to update service")
+    }
+}
+
+module.exports={ createService,checkIfServiceExist,getAllServices,getServiceById,updateService}

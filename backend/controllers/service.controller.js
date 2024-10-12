@@ -56,6 +56,23 @@ async function getServiceById(req, res, next) {
     }
 }
 
+async function updateService(req, res, next) {
+    try {
+      
+
+        const updateService = await serviceService.updateService(req.body);
+
+        if (updateService && updateService.status === "true") {
+            res.status(200).json({ success: "true" });
+        } else {
+            res.status(400).json({ error: "Faild to update service" });
+        }
+    } catch (error) {
+        console.log("error", error);
+        res.status(400).json({ error: "something went wrong" });
+    }
+}
+
 module.exports = {
-    createService,getAllServices,getServiceById
+    createService,getAllServices,getServiceById,updateService
 }
