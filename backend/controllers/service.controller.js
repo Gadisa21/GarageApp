@@ -1,4 +1,5 @@
 
+const { get } = require('../routes/service.routes');
 const serviceService = require('../services/service.service');
 
 async function createService(req, res, next) {
@@ -24,6 +25,21 @@ async function createService(req, res, next) {
     }
 }
 
+async function getAllServices(req, res, next) {
+    try {
+        const services = await serviceService.getAllServices();
+        if (services) {
+            res.status(200).json({status:"true",
+                services: services });
+        } else {
+            res.status(400).json({ error: "Failed to get services" });
+        }
+    } catch (error) {
+        console.log("error", error);
+        res.status(400).json({ error: "something went wrong" });
+    }
+}
+
 module.exports = {
-    createService
+    createService,getAllServices
 }

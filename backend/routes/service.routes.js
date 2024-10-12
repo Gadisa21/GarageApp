@@ -9,6 +9,8 @@ const serviceController=require('../controllers/service.controller');
 
 router.post('/api/service',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.createService);
 
+router.get('/api/service',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.getAllServices);
+
 
 
 module.exports=router;

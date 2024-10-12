@@ -13,8 +13,8 @@ const verifToken=  (req,res,next)=>{
     }
 
     const token=authHeader.split(' ')[1]
-    console.log("token",token)
-    console.log("secret",process.env.JWT_SECRET)
+    // console.log("token",token)
+    // console.log("secret",process.env.JWT_SECRET)
     if(!token){
         return res.status(401).send({
             status:"Fail",

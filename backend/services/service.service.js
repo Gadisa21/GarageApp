@@ -48,4 +48,23 @@ async function createService(serviceData){
     }
 }
 
-module.exports={ createService,checkIfServiceExist}
+async function getAllServices(){
+    const sql="SELECT * FROM common_services"
+
+    try {
+
+        const services=await query(sql);
+
+        if(services && services.length>0){
+            return services}
+            else{
+                return false
+            }
+        
+    } catch (error) {
+        console.log("error getting all services",error);
+        throw new Error("Failed to get services")
+    }
+}
+
+module.exports={ createService,checkIfServiceExist,getAllServices}
