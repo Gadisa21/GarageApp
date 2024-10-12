@@ -1,4 +1,5 @@
-const {query,getConnection}=require('../config/db.config')
+const {query,getConnection}=require('../config/db.config');
+const { get } = require('../routes/service.routes');
 
 async function checkIfServiceExist(service_name){
 
@@ -67,4 +68,26 @@ async function getAllServices(){
     }
 }
 
-module.exports={ createService,checkIfServiceExist,getAllServices}
+async function getServiceById(id){
+    const sql="SELECT * FROM common_services WHERE service_id=?"
+
+    if(isNaN(id)){
+        throw new Error("Invalid id")
+    }
+
+    try {
+        const service=await query(sql,[id]);
+
+        if(service && service.length>0){
+            return service[0]
+        }else{
+            return false
+        }
+        
+    } catch (error) {
+        console.log("error getting service by id",error);
+        throw new Error("Failed to get service")
+    }
+}
+
+module.exports={ createService,checkIfServiceExist,getAllServices,getServiceById}

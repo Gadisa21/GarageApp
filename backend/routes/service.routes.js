@@ -11,6 +11,10 @@ router.post('/api/service',[authMiddleware.verifToken,authMiddleware.isAdmin],se
 
 router.get('/api/service',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.getAllServices);
 
+router.get('/api/service/:id',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.getServiceById);
+
+
+
 
 
 module.exports=router;
