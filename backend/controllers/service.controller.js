@@ -73,6 +73,22 @@ async function updateService(req, res, next) {
     }
 }
 
+async function deleteService(req, res, next) {
+
+    try {
+        
+        const service = await serviceService.deleteService(req.params.id);
+        if (service && service.status === "true") {
+            res.status(200).json({ success: "true" });
+        } else {
+            res.status(400).json({ error: "Failed to delete service" });
+        }
+    } catch (error) {
+        console.log("error deleting service", error);
+        res.status(400).json({ error: "something went wrong" });
+    }
+}
+
 module.exports = {
-    createService,getAllServices,getServiceById,updateService
+    createService,getAllServices,getServiceById,updateService,deleteService
 }

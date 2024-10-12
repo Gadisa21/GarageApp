@@ -15,7 +15,7 @@ router.get('/api/service/:id',[authMiddleware.verifToken,authMiddleware.isAdmin]
 
 router.put('/api/service/',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.updateService);
 
-
+router.delete('/api/service/:id',[authMiddleware.verifToken,authMiddleware.isAdmin],serviceController.deleteService);
 
 
 
