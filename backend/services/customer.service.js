@@ -100,7 +100,38 @@ async function getCustomer(customer_id){
     }
 }
 
+async function getCustomers(page,limit){
+    const sql=`SELECT 
+    ci.customer_id,
+    ci.customer_email,
+    ci.customer_phone_number,
+    ci.customer_added_date,
+    ci.customer_hash,
+    ci_info.customer_first_name,
+    ci_info.customer_last_name,
+    ci_info.active_customer_status
+    FROM customer_identifier ci
+    JOIN customer_info ci_info ON ci.customer_id=ci_info.customer_id
+    LIMIT ?,?`
+    const sql2=`SELECT COUNT(*) as total FROM customer_identifier`
+
+    const offset=(page-1)*limit
+
+    try {
+        const [{total}]=await query(sql2)
+        const rows=await query(sql,[offset,limit])
+
+
+        return {total,data:rows}
+        
+    } catch (error) {
+        console.log("Error getting customers",error.message)
+        throw new Error("Error getting customers")
+        
+    }
+}
+
 module.exports={
     checkIfCustomerExist,
-    createCustomer,getCustomer
+    createCustomer,getCustomer,getCustomers
 }
