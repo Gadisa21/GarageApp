@@ -1,9 +1,11 @@
 const express=  require('express');
 const customerController = require('../controllers/customer.controller');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 const router = express.Router();
 
 
-router.post('/api/customer', customerController.createCustomer);
+router.post('/api/customer',[authMiddleware.verifToken,authMiddleware.isAdmin], customerController.createCustomer);
+router.get('/api/customer/:id',[authMiddleware.verifToken,authMiddleware.isAdmin], customerController.getCustomer);
 
 module.exports = router;

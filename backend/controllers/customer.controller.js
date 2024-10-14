@@ -23,4 +23,23 @@ async function createCustomer(req,res,next){
     }
 }
 
-module.exports={createCustomer}
+async function getCustomer(req,res,next){
+    try {
+        const customer = await customerService.getCustomer(req.params.id);
+        if (customer) {
+            res.status(200).json({
+                success: "true",
+                customer: customer});
+        }else{
+            res.status(400).json({ 
+                status: "Fail",
+                message: "Customer not found" });
+        }
+    } catch (error) {
+        res.status(400).json({ 
+            status: "Fail",
+            message: "something went wrong" });
+    }
+}
+
+module.exports={createCustomer,getCustomer}
