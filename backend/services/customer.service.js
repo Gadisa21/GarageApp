@@ -1,3 +1,4 @@
+const { get } = require("http");
 const {query,getConnection}=require("../config/db.config")
 const crypto=require('crypto')
 
@@ -68,7 +69,38 @@ async function createCustomer(customer){
 
 }
 
+async function getCustomer(customer_id){
+    
+    const sql=`SELECT 
+     ci.customer_id,
+    ci.customer_email,
+    ci.customer_phone_number,
+    ci.customer_added_date,
+    ci.customer_hash,
+    ci_info.customer_first_name,
+    ci_info.customer_last_name,
+    ci_info.active_customer_status
+    FROM customer_identifier ci
+    JOIN customer_info ci_info ON ci.customer_id=ci_info.customer_id
+    WHERE ci.customer_id=?`
+
+    try {
+        
+        const rows=await query(sql,[customer_id])
+
+        if(rows && rows.length>0){
+            return rows[0]}
+            else{
+                return null
+            }
+    } catch (error) {
+        console.log("Error getting customer",error.message)
+        throw new Error("Error getting customer")
+        
+    }
+}
+
 module.exports={
     checkIfCustomerExist,
-    createCustomer
+    createCustomer,getCustomer
 }
