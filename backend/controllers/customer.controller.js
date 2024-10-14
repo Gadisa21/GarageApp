@@ -70,5 +70,26 @@ async function getCustomers(req,res,next){
     }
     }
 
+async function updateCustomer(req,res,next){
+    try {
+        const customer = await customerService.updateCustomer(req.body);
 
-module.exports={createCustomer,getCustomer,getCustomers}
+        if (customer) {
+            res.status(200).json({ 
+                status: "success",
+                success: "true" });
+        }else{
+            res.status(400).json({
+                status: "Fail",
+                message: "Faild to update customer" });
+        }
+        
+    } catch (error) {
+        res.status(400).json({
+            status: "Fail",
+             message: "something went wrong" });
+    }
+}
+
+
+module.exports={createCustomer,getCustomer,getCustomers,updateCustomer}

@@ -1,4 +1,3 @@
-const { get } = require("http");
 const {query,getConnection}=require("../config/db.config")
 const crypto=require('crypto')
 
@@ -131,7 +130,47 @@ async function getCustomers(page,limit){
     }
 }
 
+async function updateCustomer(customer){
+    const {customer_id,customer_first_name,customer_last_name,customer_email,customer_phone_number,active_customer_status}=customer
+
+    const connection=await getConnection()
+
+    try {
+        await connection.beginTransaction()
+
+        const newHash=crypto.createHash('sha256').update(customer_email + Jwt_secret ).digest('hex')
+
+        const sql1="UPDATE customer_identifier SET customer_email=?,customer_hash=?,customer_phone_number=? WHERE customer_id=? "
+
+        const [rows1]=await connection.query(sql1,[customer_email,newHash,customer_phone_number,customer_id])
+
+        if(rows1.affectedRows!==1){
+            throw new Error("Failed to update customer_identifier")
+        }
+
+        const sql2="UPDATE customer_info SET customer_first_name=?,customer_last_name=?,active_customer_status=? WHERE customer_id=? "
+
+        const [rows2]=await connection.query(sql2,[customer_first_name,customer_last_name,active_customer_status,customer_id])
+
+        if(rows2.affectedRows!==1){
+            throw new Error("Failed to update customer_info")
+        }
+
+        await connection.commit()
+
+        return true
+        
+    } catch (error) {
+        await connection.rollback()
+        console.log("Error updating customer",error.message)
+        throw new Error("Error updating customer")
+        
+    } finally{
+        connection.release()
+    }
+}
+
 module.exports={
     checkIfCustomerExist,
-    createCustomer,getCustomer,getCustomers
+    createCustomer,getCustomer,getCustomers,updateCustomer
 }
