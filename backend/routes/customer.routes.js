@@ -7,5 +7,6 @@ const router = express.Router();
 
 router.post('/api/customer',[authMiddleware.verifToken,authMiddleware.isAdmin], customerController.createCustomer);
 router.get('/api/customer/:id',[authMiddleware.verifToken,authMiddleware.isAdmin], customerController.getCustomer);
+router.get("/api/customer",[authMiddleware.verifToken,authMiddleware.isAdmin],customerController.getCustomers);
 
 module.exports = router;

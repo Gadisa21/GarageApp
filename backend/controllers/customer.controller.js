@@ -42,4 +42,33 @@ async function getCustomer(req,res,next){
     }
 }
 
-module.exports={createCustomer,getCustomer}
+async function getCustomers(req,res,next){
+    
+    try {
+        const page=Number(req.query.page)
+        const limit=Number(req.query.limit)
+
+        const customers=await customerService.getCustomers(page,limit)
+
+        if(customers){
+            res.status(200).json({
+                totalCustomers:customers.total,
+                page:page,
+                limit:limit,
+                customers:customers.data
+            }
+        )
+        }
+        else{
+            res.status(400).json({error:"Failed to get customers"})
+        }
+        
+    } catch (error) {
+        
+        console.log(error.message)
+        res.status(400).json({error:"Something went wrong"})
+    }
+    }
+
+
+module.exports={createCustomer,getCustomer,getCustomers}
