@@ -2,7 +2,6 @@ const {query}=require("../config/db.config");
 const { get } = require("../routes/vehicle.routes");
 
 async function getVehicleBySerial(serial){
-    //here edit the sql as per like i added active_vehicle colunm so what you check from the database is that the vehicle is active or not so like change the sql to consider that the active status mustb 1 to compare by serial number i dont want vehicle info if the active status of that vehicle is 0
     const sql="SELECT * FROM customer_vehicle_info WHERE vehicle_serial=? AND active_vehicle=1";
     const [rows]=await query(sql,serial);
     return rows;
@@ -42,13 +41,50 @@ async function createVehicle(vehicle){
         
     }
 }
+
 async function getVehicleId(id){
     const sql="SELECT * FROM customer_vehicle_info WHERE vehicle_id=?";
     const [rows]=await query(sql,id);
     return rows;
 }
 
+async function updateVehicle(vehicle){
+
+    const sql = `
+    UPDATE customer_vehicle_info 
+    SET 
+        
+        vehicle_year=?, 
+        vehicle_make=?, 
+        vehicle_model=?, 
+        vehicle_type=?, 
+        vehicle_mileage=?, 
+        vehicle_tag=?, 
+        vehicle_serial=?, 
+        vehicle_color=?,
+        active_vehicle=?
+    WHERE vehicle_id=?;
+`;
+const { vehicle_year, vehicle_make, vehicle_model, vehicle_type, vehicle_mileage, vehicle_tag, vehicle_serial, vehicle_color,active_vehicle,vehicle_id} = vehicle;
+
+try {
+    const rows = await query(sql, [vehicle_year, vehicle_make, vehicle_model, vehicle_type, vehicle_mileage, vehicle_tag, vehicle_serial, vehicle_color,active_vehicle,vehicle_id]);
+
+    if(rows.affectedRows === 1){
+        return true;
+        
+    }else{
+        return false;
+    }
+    
+} catch (error) {
+    console.log("Error in updateVehicle service",error);
+    throw new Error(error.message);
+    
+}
+}
+
 module.exports={
     getVehicleBySerial,
-    createVehicle,getVehicleId
+    createVehicle,getVehicleId,updateVehicle
 }
