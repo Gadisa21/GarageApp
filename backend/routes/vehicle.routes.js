@@ -4,5 +4,6 @@ const vehicleController=require('../controllers/vehicle.controller');
 const authMiddleware=require('../middlewares/auth.middleware');
 
 router.post("/api/vehicle",[authMiddleware.verifToken,authMiddleware.isAdmin],vehicleController.createVehicle);
+router.get("/api/vehicle/:id",[authMiddleware.verifToken,authMiddleware.isAdmin],vehicleController.getVehicleById);
 
 module.exports=router;

@@ -1,4 +1,5 @@
-const {query}=require("../config/db.config")
+const {query}=require("../config/db.config");
+const { get } = require("../routes/vehicle.routes");
 
 async function getVehicleBySerial(serial){
     const sql="SELECT * FROM customer_vehicle_info WHERE vehicle_serial=?";
@@ -39,8 +40,13 @@ async function createVehicle(vehicle){
         
     }
 }
+async function getVehicleId(id){
+    const sql="SELECT * FROM customer_vehicle_info WHERE vehicle_id=?";
+    const [rows]=await query(sql,id);
+    return rows;
+}
 
 module.exports={
     getVehicleBySerial,
-    createVehicle
+    createVehicle,getVehicleId
 }
