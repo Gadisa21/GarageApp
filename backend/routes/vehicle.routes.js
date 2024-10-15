@@ -8,4 +8,6 @@ router.get("/api/vehicle/:id",[authMiddleware.verifToken,authMiddleware.isAdmin]
 
 router.put("/api/vehicle/",[authMiddleware.verifToken,authMiddleware.isAdmin],vehicleController.updateVehicle);
 
+router.get("/api/vehicle/customer/:customer_id",[authMiddleware.verifToken,authMiddleware.isAdmin],vehicleController.getVehicleByCustomerId);
+
 module.exports=router;
