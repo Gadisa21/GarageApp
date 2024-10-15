@@ -13,6 +13,8 @@ const serviceRouter=require("./service.routes")
 //import customer routes
 const customerRouter=require("./customer.routes")
 
+const vehicleRouter=require("./vehicle.routes")
+
 
 router.use(installRouter)
 
@@ -24,6 +26,8 @@ router.use(serviceRouter)
 
 //use customer routes
 router.use(customerRouter)
+
+router.use(vehicleRouter)
 
 
 
