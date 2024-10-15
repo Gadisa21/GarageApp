@@ -53,7 +53,36 @@ async function getVehicleById(req,res,next){
     }
 }
 
+async function updateVehicle(req,res,next){
+    try {
+        const vehicle = await vehicleService.getVehicleId(req.body.vehicle_id);
+        if(vehicle){
+            const updateVehicle = await vehicleService.updateVehicle(req.body);
+            if(updateVehicle){
+                return res.status(200).json({
+                    status:"Success",
+                    message:"Vehicle updated successfully",
+                    });
+            }else{
+                return res.status(400).json({
+                    status:"Fail",
+                    message:"Vehicle not updated"});
+            }
+        }else{
+            return res.status(400).json({
+                status:"Fail",
+                message:"Vehicle not found"});
+        }
+        
+    } catch (error) {
+        return res.status(500).json({
+            status:"Fail",
+            message:"something went wrong",});
+        
+    }
+}
+
 module.exports={
     createVehicle
-    ,getVehicleById
+    ,getVehicleById,updateVehicle
 }
