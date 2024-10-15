@@ -82,7 +82,29 @@ async function updateVehicle(req,res,next){
     }
 }
 
+async function getVehicleByCustomerId(req,res,next){
+    try {
+        const vehicle = await vehicleService.getVehicleByCustomerId(req.params.customer_id);
+        if(vehicle){
+            return res.status(200).json({
+                status:"Success",
+                message:"Vehicle found",
+                data:vehicle});
+        }else{
+            return res.status(400).json({
+                status:"Fail",
+                message:"Vehicle not found"});
+        }
+        
+    } catch (error) {
+        return res.status(500).json({
+            status:"Fail",
+            message:"something went wrong",});
+        
+    }
+}
+
 module.exports={
     createVehicle
-    ,getVehicleById,updateVehicle
+    ,getVehicleById,updateVehicle,getVehicleByCustomerId
 }

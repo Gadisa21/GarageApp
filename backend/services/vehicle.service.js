@@ -84,7 +84,19 @@ try {
 }
 }
 
+async function getVehicleByCustomerId(customer_id){
+    const sql="SELECT * FROM customer_vehicle_info WHERE customer_id=? AND active_vehicle=1";
+    const rows=await query(sql,customer_id);
+
+    if(rows && rows.length>0){
+        return rows;
+    }else{
+        return false;
+    }
+    
+    return rows;
+}
 module.exports={
     getVehicleBySerial,
-    createVehicle,getVehicleId,updateVehicle
+    createVehicle,getVehicleId,updateVehicle,getVehicleByCustomerId
 }
