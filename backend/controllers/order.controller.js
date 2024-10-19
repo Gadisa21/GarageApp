@@ -48,6 +48,31 @@ async function getOrders(req, res) {
     }
 }
 
+async function getOrderByHash(req, res) {
+    const hash = req.params.hash;
+
+    try {
+        const order = await orderService.getOrderByHash(hash);
+        if(order) {
+            res.status(200).json({
+                status: 'true',
+                message: 'Order fetched successfully',
+                data: order
+            });
+        }else{
+            res.status(400).json({
+                status: 'Fail',
+                message: 'Order not fetched'}
+            )}
+             } catch (error) {
+        res.status(500).json({
+            status: 'Fail',
+             message: "Something went wrong" });
+        
+    }
+   
+}
+
 module.exports = {
-    createOrder,getOrders
+    createOrder,getOrders,getOrderByHash
 };
