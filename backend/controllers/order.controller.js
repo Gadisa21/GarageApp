@@ -73,6 +73,27 @@ async function getOrderByHash(req, res) {
    
 }
 
+async function updateOrder(req, res) {
+    try {
+        const order = await orderService.updateOrder(req.body);
+        if(order) {
+            res.status(201).json({
+                status: 'true',
+                message: 'Order updated successfully',
+            });
+        }else{
+            res.status(400).json({
+                status: 'Fail',
+                message: 'Order not updated',
+            });
+        }
+    } catch (error) {
+        res.status(500).json({
+            status: 'Fail',
+             message: "Something went wrong" });
+    }
+}
+
 module.exports = {
-    createOrder,getOrders,getOrderByHash
+    createOrder,getOrders,getOrderByHash,updateOrder
 };
