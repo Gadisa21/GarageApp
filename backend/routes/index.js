@@ -15,6 +15,8 @@ const customerRouter=require("./customer.routes")
 
 const vehicleRouter=require("./vehicle.routes")
 
+const orderRouter=require("./order.routes")
+
 
 router.use(installRouter)
 
@@ -28,6 +30,8 @@ router.use(serviceRouter)
 router.use(customerRouter)
 
 router.use(vehicleRouter)
+
+router.use(orderRouter)
 
 
 

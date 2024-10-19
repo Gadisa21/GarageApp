@@ -101,15 +101,14 @@ CREATE TABLE IF NOT EXISTS `orders` (
   FOREIGN KEY (vehicle_id) REFERENCES customer_vehicle_info(vehicle_id)
 ) ENGINE=InnoDB;
 
+
+   
+
 CREATE TABLE IF NOT EXISTS `order_info` (
   `order_info_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `order_total_price` int(11) NOT NULL,
-  `estimated_completion_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `completion_date` DATETIME,
   `additional_request` TEXT,
-  `notes_for_internal_use` TEXT,
-  `notes_for_customer` TEXT,
   `additional_requests_completed` int(11) NOT NULL,
   PRIMARY KEY (order_info_id),
   FOREIGN KEY (order_id) REFERENCES orders(order_id)
