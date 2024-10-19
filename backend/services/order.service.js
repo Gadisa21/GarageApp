@@ -1,5 +1,5 @@
 const { create } = require('domain');
-const {getConnection} = require('../config/db.config');
+const {query,getConnection} = require('../config/db.config');
 
 const crypto = require('crypto');
 const Jwt_secret=process.env.JWT_SECRET
@@ -57,4 +57,46 @@ async function createOrder(order) {
     }
 }
 
-module.exports = {createOrder};
+async function getOrders(page,limit) {
+
+    const offset=(page-1)*limit;
+
+    try {
+        const sql=`
+        SELECT 
+            o.order_id,
+            o.employee_id,
+            o.customer_id,
+            o.vehicle_id,
+            o.order_date,
+            o.active_order,
+            o.order_hash,
+            oi.order_total_price,
+            os.order_status
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_info oi ON o.order_id = oi.order_id
+        LEFT JOIN 
+            order_status os ON o.order_id = os.order_id
+        LIMIT ? OFFSET ?;
+    `;
+
+    const orders=await query(sql,[limit,offset]);
+
+    if(orders.length>0){
+        return orders;}else{
+            return false;
+        }
+        
+    } catch (error) {
+        console.log('Error getting orders',error.message);
+        throw new Error('Error getting orders');
+
+        
+    }
+
+
+
+}
+module.exports = {createOrder,getOrders};
