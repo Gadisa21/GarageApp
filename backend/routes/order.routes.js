@@ -7,5 +7,8 @@ router.post('/api/order',[authMiddleware.verifToken,authMiddleware.isAdmin],orde
 
 router.get('/api/orders',[authMiddleware.verifToken,authMiddleware.isAdmin],orderController.getOrders);
 
+router.get('/api/order/:hash',[authMiddleware.verifToken,authMiddleware.isAdmin],orderController.getOrderByHash);
+
+
 
 module.exports=router;

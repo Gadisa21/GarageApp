@@ -99,4 +99,70 @@ async function getOrders(page,limit) {
 
 
 }
-module.exports = {createOrder,getOrders};
+
+async function getOrderByHash(hash){
+    try {
+        const sql=`
+        SELECT 
+            o.order_id,
+            o.employee_id,
+            o.customer_id,
+            o.vehicle_id,
+            o.order_date,
+            o.active_order,
+            o.order_hash,
+            oi.order_total_price,
+            oi.additional_request,
+            oi.additional_requests_completed,
+            os.order_status
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_info oi ON o.order_id = oi.order_id
+        LEFT JOIN 
+            order_status os ON o.order_id = os.order_id
+        WHERE 
+            o.order_hash = ?;
+    `;
+
+    
+
+    const [order]=await query(sql,[hash]);
+    //check if order performed is not successful
+
+        if(order && order.length<1){
+            return false;
+
+        }
+
+        const sql2= `SELECT 
+        os.order_service_id,
+        os.service_id,
+        os.service_completed,
+        cs.service_name,
+        cs.service_description
+    FROM 
+        order_services os
+    LEFT JOIN 
+        common_services cs ON os.service_id = cs.service_id
+    WHERE 
+        os.order_id = ?;
+`;
+
+const services=await query(sql2,[order.order_id]);
+
+order.order_services=services;
+
+return order;
+
+
+    
+        
+    } catch (error) {
+        console.log('Error getting order by hash',error.message);
+        throw new Error('Error getting order by hash');
+
+        
+    }
+}
+module.exports = {createOrder,getOrders,getOrderByHash};
