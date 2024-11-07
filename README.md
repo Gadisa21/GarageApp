@@ -7,8 +7,7 @@ This repository contains the backend code for the Garage Web App, a comprehensiv
 - [Functional Scope](#functional-scope)
 - [Technology Stack](#technology-stack)
 - [Setup and Installation](#setup-and-installation)
-- [API Documentation](#api-documentation)
-- [Non-Functional Requirements](#non-functional-requirements)
+
 
 ---
 
