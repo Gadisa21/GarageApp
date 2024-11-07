@@ -49,11 +49,8 @@ To run the backend locally:
 4. Configure the MySQL database:
    - Update the database settings in the `.env` file (e.g., `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`).
 
-5. Run database migrations (if applicable):
-    ```bash
-    npm run migrate
-    ```
-6. Start the server:
+
+5. Start the server:
     ```bash
     npm start
     ```
