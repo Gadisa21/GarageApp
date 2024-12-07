@@ -7,12 +7,12 @@ import Footer from "@/components/footer/Footer"
 function page() {
   return (
     <>
-    <Header />
+    
     <Banner />
     <Experience />
     <ServiceHome />
     <ChoosUs />
-    <Footer />
+    
     </>
   )
 }
