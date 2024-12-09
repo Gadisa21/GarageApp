@@ -14,7 +14,7 @@ function Header() {
   return (
     <div>
      
-      <div className="md:flex justify-between items-center">
+      <div className="md:flex justify-between items-center ">
         <div className="text-center bg-customeRed text-white p-7">
           <p>Enjoy the Beso while we fix your car</p>
         </div>
@@ -25,7 +25,7 @@ function Header() {
       </div>
 
       {/* Header Section */}
-      <div className="flex justify-between h-24 items-center px-6 sm:px-14 relative">
+      <div className="flex h-16 justify-between sm:h-24 items-center px-6 sm:px-14 relative">
         {/* Logo */}
         <Image
           src="/images/logo.png"
@@ -61,7 +61,7 @@ function Header() {
               </Link>
             </li>
             <li>
-              <Link href="/service" onClick={() => setIsMenuOpen(false)}>
+              <Link href="/services" onClick={() => setIsMenuOpen(false)}>
                 Services
               </Link>
             </li>

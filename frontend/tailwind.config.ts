@@ -9,7 +9,8 @@ const config: Config = {
   theme: {
     extend: {
       backgroundImage: {
-        'banner': "url('/images/banner1.jpg')",
+        'banner1': "url('/images/banner1.jpg')",
+        "banner2": "url('/images/banner2.jpg')",
         'vban1':"url('/images/vban1.jpg')",
         'vban2':"url('/images/vban2.jpg')",
         'patternBg':"url('/images/pattern.png')",
