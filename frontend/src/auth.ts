@@ -1,8 +1,9 @@
 import NextAuth, { JWT } from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import jwt from "jsonwebtoken"
-
 import { LoginResponse,DecodedToken } from "@/types"
+import {setAuthState} from "@/features/auth/authSlice"
+import {store} from "@/store/store"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -47,7 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 }
                 
             }else{
-                console.log("Faild to login",response)
+                console.log("Faild to login",data)
                 return null
             }
         }
@@ -85,6 +86,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.employee_first_name= customToken.employee_first_name
         session.user.employee_role= customToken.employee_role
         session.user.token= customToken.token
+        
+        
         
           return session;
     }

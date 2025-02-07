@@ -5,7 +5,7 @@ const Jwt_secret = process.env.JWT_SECRET;
 
 async function logIn(req, res,next) {
     try {
-        // console.log(req.body)
+        console.log(req.body)
         const employee = await loginService.logIn(req.body);
 
         if (employee.status === 'Fail') {
@@ -37,6 +37,12 @@ async function logIn(req, res,next) {
 
     } catch (error) {
         console.log("loginC",error)
+        return res.status(500).json(
+            {
+                status:"Fail",
+                message:"Internal server error"
+            }
+        );
        
     }
 }

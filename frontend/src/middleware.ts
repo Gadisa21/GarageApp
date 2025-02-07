@@ -19,7 +19,9 @@ export async function middleware(req:NextRequest) {
 
   if (!session) {
     console.log("Unauthorized access, redirecting to login...");
-    return NextResponse.redirect(new URL("/signin", req.url));
+    const signInUrl=new URL("/signin", req.url)
+    signInUrl.searchParams.set("callbackUrl", req.url);
+    return NextResponse.redirect(signInUrl);
   }
 
   console.log("Authorized access, proceeding...");
@@ -29,3 +31,8 @@ export async function middleware(req:NextRequest) {
 export const config = {
   matcher: ["/((?!api|_next|.*\\..*).*)"], 
 };
+
+
+
+// "employee_email": "update@gmail.com",
+//  "employee_password": "8HYsy&^uud*7hh"

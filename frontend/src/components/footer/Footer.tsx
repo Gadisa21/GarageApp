@@ -6,7 +6,7 @@ import Link from "next/link";
 function Footer() {
   return (
     <>
-      <div className="bg-customBlue text-white mt-16 px-10 md:px-0">
+      <div className="bg-customBlue text-white  px-10 md:px-0">
 
         <div className="border-b-[1px] border-gray-500 ">
           <div className="mx-auto max-w-[1200px] grid  sm:grid-cols-2 md:grid-cols-3  ">

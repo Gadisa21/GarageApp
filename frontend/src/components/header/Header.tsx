@@ -3,8 +3,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 function Header() {
+
+  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -70,18 +74,32 @@ function Header() {
                 Contact Us
               </Link>
             </li>
-            <li className="pl-0 sm:pl-7 sm:border-l-2">
-              <Link
-                href="/signin"
-                className="bg-customBlue text-white py-3 px-4 block text-center sm:inline-block"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Sign In
-              </Link>
-            </li>
+             {session ? (
+              <li className="pl-0 sm:pl-7 sm:border-l-2">
+                <button
+                  className="bg-customBlue text-white py-3 px-4 block text-center sm:inline-block"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    signOut({ callbackUrl: '/signin' });
+                  }}
+                >
+                  Sign Out
+                </button>
+              </li>
+            ) : (
+              <li className="pl-0 sm:pl-7 sm:border-l-2">
+                <Link
+                  href="/signin"
+                  className="bg-customBlue text-white py-3 px-4 block text-center sm:inline-block"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Sign In
+                </Link>
+              </li>
+            )}
           </ul>
         </nav>
-      </div>
+      </div> 
     </div>
   );
 }

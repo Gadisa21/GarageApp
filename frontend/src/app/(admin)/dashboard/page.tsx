@@ -3,7 +3,7 @@ import AdminMenu from "@/components/adminMenu/AdminMenu"
 const page = () => {
   return (
     <div>
-        <AdminMenu />
+       <h1>Dashboard</h1>
     </div>
   )
 }
