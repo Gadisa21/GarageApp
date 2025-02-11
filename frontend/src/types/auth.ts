@@ -5,7 +5,7 @@ employee_first_name: string;
 empoyee_role: number;
 }
 
-interface AuthState {
+export interface AuthState {
     employee_id: number | null;
     employee_email: string | null;
     employee_first_name: string | null;

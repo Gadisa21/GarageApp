@@ -1,6 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {AuthState} from '@/types';
 
+
 const initialState:AuthState={
     employee_id:null,
     employee_email:null,
@@ -20,6 +21,7 @@ const authSlice=createSlice({
             state.employee_role=action.payload.employee_role;
             state.token=action.payload.token;
         },
+        
         removeAuthState:(state)=>{
             state.employee_id=null;
             state.employee_email=null;
@@ -28,6 +30,7 @@ const authSlice=createSlice({
             state.token=null;
         }
     }
+    
 })
 
 export const {setAuthState,removeAuthState}=authSlice.actions;
