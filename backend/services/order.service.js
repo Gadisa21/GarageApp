@@ -63,40 +63,44 @@ async function getOrders(page,limit) {
 
     try {
         const sql=`
-       SELECT 
-            o.order_id,
-            o.employee_id,
-            o.customer_id,
-            o.vehicle_id,
-            o.order_date,
-            o.active_order,
-            o.order_hash,
-            oi.order_total_price,
-            os.order_status,
-            ci.customer_email,
-            CONCAT(cinfo.customer_first_name, ' ', cinfo.customer_last_name) AS customer_name,
-            v.vehicle_model,
-            v.vehicle_tag
-        FROM 
-            orders o
-        LEFT JOIN 
-            order_info oi ON o.order_id = oi.order_id
-        LEFT JOIN 
-            order_status os ON o.order_id = os.order_id
-        LEFT JOIN 
-            customer_identifier ci ON o.customer_id = ci.customer_id
-        LEFT JOIN 
-            customer_info cinfo ON o.customer_id = cinfo.customer_id
-        LEFT JOIN 
-            customer_vehicle_info v ON o.vehicle_id = v.vehicle_id
-        LIMIT ? OFFSET ?;
+      SELECT 
+        o.order_id,
+        o.employee_id,
+        CONCAT(ei.employee_first_name, ' ', ei.employee_last_name) AS employee_name,
+        o.customer_id,
+        o.vehicle_id,
+        o.order_date,
+        o.active_order,
+        o.order_hash,
+        oi.order_total_price,
+        os.order_status,
+        ci.customer_email,
+        CONCAT(cinfo.customer_first_name, ' ', cinfo.customer_last_name) AS customer_name,
+        v.vehicle_model,
+        v.vehicle_tag
+FROM
+        orders o
+      LEFT JOIN 
+        order_info oi ON o.order_id = oi.order_id
+      LEFT JOIN 
+        order_status os ON o.order_id = os.order_id
+      LEFT JOIN 
+        customer_identifier ci ON o.customer_id = ci.customer_id
+      LEFT JOIN 
+        customer_info cinfo ON o.customer_id = cinfo.customer_id
+      LEFT JOIN 
+        customer_vehicle_info v ON o.vehicle_id = v.vehicle_id
+      LEFT JOIN 
+        employee e ON o.employee_id = e.employee_id
+      LEFT JOIN 
+        employee_info ei ON e.employee_id = ei.employee_id
+      LIMIT ? OFFSET ?;
     `;
 
     const orders=await query(sql,[limit,offset]);
 
     if(orders.length>0){
-        return orders;}else{
-            return false;
+        return orders;
         }
         
     } catch (error) {

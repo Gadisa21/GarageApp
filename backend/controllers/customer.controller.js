@@ -91,5 +91,25 @@ async function updateCustomer(req,res,next){
     }
 }
 
+async function searchCustomers(req,res,next){
+   try {
+    const {keyword}=req.query;
+    if(!keyword){
+        res.status(400).json({message:"Please provide a keyword"})
+    }
 
-module.exports={createCustomer,getCustomer,getCustomers,updateCustomer}
+    const customers=await customerService.searchCustomers(keyword)
+    console.log("customer controller",customers)
+
+    res.status(200).json({customers})
+
+    
+   } catch (error) {
+    console.log(error.message)
+    res.status(400).json({error:"Something went wrong"})
+    
+   }
+}
+
+
+module.exports={createCustomer,getCustomer,getCustomers,updateCustomer,searchCustomers}

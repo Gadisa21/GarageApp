@@ -169,8 +169,33 @@ async function updateCustomer(customer){
         connection.release()
     }
 }
+async function searchCustomers(keyword) {
+    console.log("keyword",keyword)
+    const sql = `SELECT 
+      ci.customer_id,
+      ci.customer_email,
+      ci.customer_phone_number,
+      ci.customer_added_date,
+      ci.customer_hash,
+      ci_info.customer_first_name,
+      ci_info.customer_last_name,
+      ci_info.active_customer_status
+      FROM customer_identifier ci
+      JOIN customer_info ci_info ON ci.customer_id = ci_info.customer_id
+      WHERE ci_info.customer_first_name LIKE ? OR ci_info.customer_last_name LIKE ? OR ci.customer_email LIKE ?`;
+  
+    const searchKeyword = `%${keyword}%`;
+  
+    try {
+      const rows = await query(sql, [searchKeyword, searchKeyword, searchKeyword]);
+      return rows;
+    } catch (error) {
+      console.log("Error searching customers", error.message);
+      throw new Error("Error searching customers");
+    }
+  }
 
 module.exports={
     checkIfCustomerExist,
-    createCustomer,getCustomer,getCustomers,updateCustomer
+    createCustomer,getCustomer,getCustomers,updateCustomer,searchCustomers
 }

@@ -29,18 +29,14 @@ async function getOrders(req, res) {
     const limit=parseInt(req.query.limit);
     try {
         const orders = await orderService.getOrders(page,limit);
-        if(orders) {
+        
             res.status(200).json({
                 status: 'true',
                 message: 'Orders fetched successfully',
                 data: orders
             });
-        }else{
-            res.status(400).json({
-                status: 'Fail',
-                message: 'Orders not fetched',
-            });
-        }
+        
+        
     } catch (error) {
         res.status(500).json({
             status: 'Fail',
