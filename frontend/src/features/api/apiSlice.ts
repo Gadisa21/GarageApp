@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {OrderResponse} from "@/types"
+import {OrderResponse,customerResponse,vehicleResponse,serviceResponse,CreateOrderRequest} from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -27,8 +27,23 @@ export const apiSlice = createApi({
     getOrders: builder.query<OrderResponse,{page:number; limit:number}>({
       query: ({page,limit}) => `/orders?page=${page}&limit=${limit}`,
     }),
-    // Add more endpoints as needed
-  }),
-});
+    getcustomersByKeyword: builder.query<customerResponse,{keyword:string}>({
+      query:({keyword})=>`/customer/search?keyword=${keyword}`
+    }),
+    getVehiclesByCustomerId: builder.query<vehicleResponse,{customer_id:number}>({
+      query:({customer_id})=>`/vehicle/customer/${customer_id}`
+    }),
+    getServices: builder.query<serviceResponse,void>({
+      query:()=>"/service"
+    }),
+    createOrder: builder.mutation<void,CreateOrderRequest>({
+      query:(newOrder)=>({
+        url:"/order",
+        method:"POST",
+        body:newOrder
+    }),
 
-export const { useGetOrdersQuery } = apiSlice;
+  }),
+}),});
+
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation } = apiSlice;

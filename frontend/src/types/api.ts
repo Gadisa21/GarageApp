@@ -27,6 +27,8 @@ export interface LoginSuccessResponse {
   customer_name: string;
   vehicle_model: string;
   vehicle_tag: string;
+  employee_name: string;
+
   }
   
   export interface OrderResponse{
@@ -34,3 +36,70 @@ export interface LoginSuccessResponse {
     message: string;
     data?: Order[];
   }
+  
+  export interface customer{
+    customer_id: number;
+    customer_email: string;
+    customer_phone_number: string;
+    customer_added_date: string;
+    customer_hash: string;
+    customer_first_name: string;
+    customer_last_name: string;
+    active_customer_status: number;
+
+  }
+
+  export interface customerResponse{
+    customers:customer[]
+
+  }
+
+ 
+
+  export interface vehicle{
+    vehicle_id: number;
+   customer_id: number;
+   vehicle_year: number;
+    vehicle_make: string;
+    vehicle_model: string;
+    vehicle_type: string;
+    vehicle_mileage: number;
+    vehicle_tag: string;
+    vehicle_serial: string;
+    vehicle_color: string;
+    active_vehicle: number;
+  }
+
+  export interface vehicleResponse{
+    status: string;
+    message: string;
+    data?: vehicle[];
+  }
+
+  export interface service{
+    service_id: number;
+    service_name: string;
+    service_description: string;
+    
+  }
+
+  export interface serviceResponse{
+    status: string;
+    
+    services: service[];
+  }
+
+  export interface orderService {
+    service_id:number
+  }
+
+  export interface CreateOrderRequest{
+    employee_id: number;
+    customer_id: number;
+    vehicle_id: number;
+    additional_request?:string;
+    order_total_price: number;
+    order_services?: orderService[];
+  }
+  
+  

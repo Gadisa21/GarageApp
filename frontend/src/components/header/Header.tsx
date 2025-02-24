@@ -16,9 +16,9 @@ function Header() {
   };
 
   return (
-    <div>
+    <div className="sticky top-0 z-50 bg-white shadow-md">
      
-      <div className="md:flex justify-between items-center ">
+      <div className="md:flex justify-between items-center  ">
         <div className="text-center bg-customeRed text-white p-7">
           <p>Enjoy the Beso while we fix your car</p>
         </div>
