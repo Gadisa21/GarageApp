@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {OrderResponse,customerResponse,vehicleResponse,serviceResponse,CreateOrderRequest} from "@/types"
+import {OrderResponse,customerResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse } from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -41,9 +41,21 @@ export const apiSlice = createApi({
         url:"/order",
         method:"POST",
         body:newOrder
-    }),
-
+    })
   }),
+    addCustomer: builder.mutation<void,AddCustomerRequest>({
+
+      query:(newCustomer)=>({
+        url:"/customer",
+        method:"POST",
+        body:newCustomer
+      })
+    }),
+    getCustomers:builder.query<getCustomersResponse,{page:number; limit:number}>({
+      query:({page,limit})=>`/customer?page=${page}&limit=${limit}`
+    
+    })
+  
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation } = apiSlice;
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery } = apiSlice;

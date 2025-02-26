@@ -101,5 +101,21 @@ export interface LoginSuccessResponse {
     order_total_price: number;
     order_services?: orderService[];
   }
+
+  export interface AddCustomerRequest{
+    customer_email: string;
+    customer_phone_number: string;
+    customer_first_name: string;
+    customer_last_name: string;
+  }
+
+  
+
+  export interface getCustomersResponse {
+    totalCustomers: number;
+    page: number;
+    limit: number;
+    customers: customer[];
+  }
   
   
