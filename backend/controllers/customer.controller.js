@@ -28,10 +28,11 @@ async function getCustomer(req,res,next){
         const customer = await customerService.getCustomer(req.params.id);
         if (customer) {
             res.status(200).json({
-                success: "true",
-                customer: customer});
+                status: "success",
+                message: "Customer found successfully",
+               data:{customer}});
         }else{
-            res.status(400).json({ 
+            res.status(404).json({ 
                 status: "Fail",
                 message: "Customer not found" });
         }

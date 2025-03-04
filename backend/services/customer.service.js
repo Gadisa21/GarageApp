@@ -13,7 +13,7 @@ async function checkIfCustomerExist(email){
 
 async function createCustomer(customer){
 
-    const {customer_first_name,customer_last_name,customer_email,customer_phone_number,active_customer_status}=customer
+    const {customer_first_name,customer_last_name,customer_email,customer_phone_number}=customer
 
     //get connection from pool
     const connection=await getConnection()
@@ -41,7 +41,7 @@ async function createCustomer(customer){
         //insert into customer_info
         const sql2="INSERT INTO customer_info (customer_id,customer_first_name,customer_last_name,active_customer_status) VALUES (?,?,?,?)"
 
-        const [rows2]= await connection.query(sql2,[customer_id,customer_first_name,customer_last_name,active_customer_status])
+        const [rows2]= await connection.query(sql2,[customer_id,customer_first_name,customer_last_name,1])
 
         //check if the insert was successful
         if(rows2.affectedRows!==1){

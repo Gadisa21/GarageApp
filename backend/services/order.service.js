@@ -8,7 +8,9 @@ const Jwt_secret=process.env.JWT_SECRET
 async function createOrder(order) {
     const connection=await getConnection()
 
-    const order_hash=crypto.createHash('sha256').update(order.order_id+Jwt_secret).digest('hex')
+ // Generate a unique hash using employee_id, customer_id, vehicle_id, and current timestamp
+ const uniqueString = `${order.employee_id}-${order.customer_id}-${order.vehicle_id}-${Date.now()}`;
+ const order_hash = crypto.createHash('sha256').update(uniqueString + Jwt_secret).digest('hex');
 
     try {
         await connection.beginTransaction();
@@ -21,24 +23,37 @@ async function createOrder(order) {
         }
         const order_id=result1.insertId;
         const sql2='INSERT INTO order_info (order_id,order_total_price,additional_request,additional_requests_completed) VALUES (?,?,?,?)';
-
-        const [result2]=await connection.query(sql2,[order_id,order.order_total_price,order.additional_request,order.additional_requests_completed]);
         
+        
+
+        if(order?.additional_request)
+            {
+        const [result2]=await connection.query(sql2,[order_id,order.order_total_price,order.additional_request,0]);
         if(result2.affectedRows!==1){
             throw new Error('Failed to insert into order_info');
+        }}
+        
+        else{
+            const [result2]=await connection.query(sql2,[order_id,order.order_total_price,null,null]);
+            if(result2.affectedRows!==1){
+                throw new Error('Failed to insert into order_info');
+            }
         }
+        
+        
 
         const sql3="INSERT INTO order_services (order_id,service_id,service_completed) VALUES (?,?,?)";
 
+if(order?.order_services){
         for(let i=0;i<order.order_services.length;i++){
             const [result3]=await connection.query(sql3,[order_id,order.order_services[i].service_id,0]);
             if(result3.affectedRows!==1){
                 throw new Error('Failed to insert into order_services');
             }
         }
-
+    }
         const sql4="INSERT INTO order_status (order_id,order_status) VALUES (?,?)";
-        const [result4]=await connection.query(sql4,[order_id,order.order_completed]);
+        const [result4]=await connection.query(sql4,[order_id,0]);
         if(result4.affectedRows!==1){
             throw new Error('Failed to insert into order_status');
         }
@@ -232,4 +247,58 @@ async function updateOrder(order){
         connection.release();
     }
 }
-module.exports = {createOrder,getOrders,getOrderByHash,updateOrder};
+
+async function getCustomerOrders(id){
+    try {
+        const sql=`
+       SELECT 
+            o.order_id,
+            o.employee_id,
+            o.customer_id,
+            o.vehicle_id,
+            o.order_date,
+            o.active_order,
+            o.order_hash,
+            oi.order_total_price,
+            os.order_status,
+            ci.customer_email,
+            CONCAT(cinfo.customer_first_name, ' ', cinfo.customer_last_name) AS customer_name,
+            v.vehicle_model,
+            v.vehicle_tag,
+            CONCAT(ei.employee_first_name, ' ', ei.employee_last_name) AS employee_name
+        FROM 
+            orders o
+        LEFT JOIN 
+            order_info oi ON o.order_id = oi.order_id
+        LEFT JOIN 
+            order_status os ON o.order_id = os.order_id
+        LEFT JOIN 
+            customer_identifier ci ON o.customer_id = ci.customer_id
+        LEFT JOIN 
+            customer_info cinfo ON o.customer_id = cinfo.customer_id
+             LEFT JOIN 
+            customer_vehicle_info v ON o.vehicle_id = v.vehicle_id
+        LEFT JOIN 
+            employee e ON o.employee_id = e.employee_id
+        LEFT JOIN 
+            employee_info ei ON e.employee_id = ei.employee_id
+        WHERE 
+            o.customer_id = ?;
+    `;
+
+    const orders=await query(sql,[id]);
+
+    if(orders.length>0){
+        return orders;
+        }else{
+            return []
+        }
+        
+    } catch (error) {
+        console.log('Error getting customer orders',error.message);
+        throw new Error('Error getting customer orders');
+
+        
+    }
+}
+module.exports = {createOrder,getOrders,getOrderByHash,updateOrder,getCustomerOrders};

@@ -90,6 +90,31 @@ async function updateOrder(req, res) {
     }
 }
 
+async function getCustomerOrders(req, res) {
+    const id = req.params.id;
+
+    try {
+        const orders = await orderService.getCustomerOrders(id);
+        if(orders) {
+            res.status(200).json({
+                status: 'true',
+                message: 'Orders fetched successfully',
+                data: orders
+            });
+        }else{
+            res.status(400).json({
+                status: 'Fail',
+                message: 'Orders not fetched'}
+            )}
+             } catch (error) {
+        res.status(500).json({
+            status: 'Fail',
+             message: "Something went wrong" });
+        
+    }
+   
+}
+
 module.exports = {
-    createOrder,getOrders,getOrderByHash,updateOrder
+    createOrder,getOrders,getOrderByHash,updateOrder,getCustomerOrders
 };

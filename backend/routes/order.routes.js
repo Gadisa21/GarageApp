@@ -10,6 +10,7 @@ router.get('/api/orders',[authMiddleware.verifToken,authMiddleware.isAdmin],orde
 router.get('/api/order/:hash',[authMiddleware.verifToken,authMiddleware.isAdmin],orderController.getOrderByHash);
 
 router.put('/api/order/',[authMiddleware.verifToken,authMiddleware.isAdmin],orderController.updateOrder);
+router.get("/api/orders/customer/:id",[authMiddleware.verifToken,authMiddleware.isAdmin],orderController.getCustomerOrders);
 
 
 

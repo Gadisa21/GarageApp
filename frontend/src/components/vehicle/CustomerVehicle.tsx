@@ -66,7 +66,7 @@ const removeForm=()=>{
       </div>
       <div className="flex-grow">
         <p className="text-2xl font-bold text-customBlue mb-2">
-          Vehicle of Gadisa
+          Vehicles
         </p>
 
         <div className="overflow-x-auto w-full max-w-full">

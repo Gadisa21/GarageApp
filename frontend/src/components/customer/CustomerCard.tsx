@@ -25,7 +25,7 @@ function CustomerCard({customer_id}: CustomerCardProps) {
       {(customer?.data && customer.data.customer )?(
       <div>
         <p className="text-2xl font-bold text-customBlue mb-2 ">
-               {customer.data.customer.customer_first_name + customer.data.customer.customer_last_name}       </p>
+               {customer.data.customer.customer_first_name} {" "} {customer.data.customer.customer_last_name}       </p>
         <p className="mb-1 text-lg text-customBlue font-semibold">
           Email:<span className="text-gray-500">{customer.data.customer.customer_email}</span>
         </p>

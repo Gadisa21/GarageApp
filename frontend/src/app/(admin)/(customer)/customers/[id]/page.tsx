@@ -14,6 +14,8 @@ function Customer() {
 
     if (vehicleisLoading) return <div>Loading...</div>
 
+    console.log("vehicles",vehicles)
+
     
   return (
     <div>
