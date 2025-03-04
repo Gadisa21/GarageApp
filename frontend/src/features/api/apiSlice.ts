@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse } from "@/types"
+import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse,updateCustomerInfoRequest } from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -64,8 +64,16 @@ export const apiSlice = createApi({
     }),
     getOrdersPerCustomer: builder.query<OrderResponse,{customer_id:number}>({
       query:({customer_id})=>`/orders/customer/${customer_id}`}),
+
       getcustomerById: builder.query<customerResponse,{customer_id:number}>({
         query:({customer_id})=>`/customer/${customer_id}`}),
+
+      updateCutomerInfo: builder.mutation<void,updateCustomerInfoRequest>({
+        query:(newCustomerInfo)=>({
+          url:"/customer",
+        method:"PUT",
+        body:newCustomerInfo}),
+      }),
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery } = apiSlice;
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation } = apiSlice;

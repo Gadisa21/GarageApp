@@ -133,5 +133,14 @@ export interface customerResponse{
     message: string;
     data?: vehicle[];
   }
+
+  export interface updateCustomerInfoRequest{
+    customer_id: number;
+    customer_phone_number: string;
+    customer_first_name: string;
+    customer_last_name: string;
+    customer_email: string;
+    active_customer_status: number;
+    }
   
   
