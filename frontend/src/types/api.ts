@@ -59,9 +59,19 @@ export interface customerResponse{
   data?: customer;
 } 
 
+export interface Customer{
+  customer_id: number;
+  customer_email: string;
+  customer_phone_number: string;
+  customer_added_date: string;
+  customer_hash: string;
+  customer_first_name: string;
+  customer_last_name: string;
+  active_customer_status: number;
+}
 
   export interface customersResponse{
-    customers:customer[]
+    customers:Customer[]
 
   }
 
@@ -119,13 +129,14 @@ export interface customerResponse{
     customer_last_name: string;
   }
 
+ 
   
 
   export interface getCustomersResponse {
     totalCustomers: number;
     page: number;
     limit: number;
-    customers: customer[];
+    customers: Customer[];
   }
 
   export interface getVehiclePerCustomerResponse {
@@ -142,5 +153,26 @@ export interface customerResponse{
     customer_email: string;
     active_customer_status: number;
     }
+
+
+
+
+export interface employee {
+ empoyee_id: number;
+  employee_email: string;
+  active_employee: number;
+  added_date: string;
+  employee_first_name: string;
+  employee_last_name: string;
+  employee_phone: string;
+  company_role_id: number;
+    }
+
+  export interface employeeResponse{
+    totalEmployees: number;
+    page: number;
+    limit: number;
+    employees: employee[];
+  }
   
   

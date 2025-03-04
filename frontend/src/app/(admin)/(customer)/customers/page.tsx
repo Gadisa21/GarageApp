@@ -5,6 +5,7 @@ import { HiSearch } from "react-icons/hi";
 import {useRouter} from "next/navigation"
 
 
+
 function page() {
 
   const router = useRouter();
@@ -146,6 +147,7 @@ function page() {
               <th className="py-2 px-4 border border-gray-300">Phone</th>
               <th className="py-2 px-4 border border-gray-300">Added Date</th>
               <th className="py-2 px-4 border border-gray-300">Active</th>
+              
               
             </tr>
           </thead>
