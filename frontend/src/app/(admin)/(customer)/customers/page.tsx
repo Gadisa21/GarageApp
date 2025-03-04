@@ -2,9 +2,12 @@
 import { useState } from "react"
 import { useGetcustomersByKeywordQuery,useGetCustomersQuery } from "@/features/api/apiSlice"
 import { HiSearch } from "react-icons/hi";
+import {useRouter} from "next/navigation"
 
 
 function page() {
+
+  const router = useRouter();
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(1);
 
@@ -45,6 +48,11 @@ function page() {
     
   return (
     <div className="flex flex-col gap-10 mx-5 my-10 md:mx-16">
+
+<p className="text-4xl font-bold text-customBlue mb-3">
+        Customers
+        <span className=" inline-block ml-3 w-10 h-[2px] bg-customeRed"></span>
+      </p>
              <div className="relative">
                <input
                  type="text"
@@ -66,6 +74,8 @@ function page() {
                  <table className="min-w-full bg-white border border-gray-200 mt-3">
                    <thead>
                      <tr>
+                     <th className="py-2 px-4 border border-gray-300">ID</th>
+
                        <th className="py-2 px-4 border border-gray-300">
                          First Name
                        </th>
@@ -76,6 +86,8 @@ function page() {
                        <th className="py-2 px-4 border border-gray-300">
                          Phone Number
                        </th>
+                       <th className="py-2 px-4 border border-gray-300">Added Date</th>
+
                        <th className="py-2 px-4 border border-gray-300">Status</th>
                      </tr>
                    </thead>
@@ -83,11 +95,14 @@ function page() {
                      {searchcustomers.customers.map((customer) => (
                        <tr
                          key={customer.customer_id}
+                         onClick={() => router.push(`/customers/${customer.customer_id}`)}
                         
                          className={`cursor-pointer ${
                            customer.customer_id % 2 ? "bg-gray-100" : ""
                          } hover:bg-gray-200`}
                        >
+                        <td className="py-4 px-4 border border-gray-300">
+                           {customer.customer_id} </td>
                          <td className="py-4 px-4 border border-gray-300">
                            {customer.customer_first_name}
                          </td>
@@ -100,6 +115,9 @@ function page() {
                          <td className="py-4 px-4 border border-gray-300">
                            {customer.customer_phone_number}
                          </td>
+                         <td className="py-4 px-4 border border-gray-300">
+                           {new Date(customer.customer_added_date).toLocaleDateString()}
+                           </td>
                          <td className="py-4 px-4 border border-gray-300">
                            {customer.active_customer_status
                              ? "Active"
@@ -134,7 +152,9 @@ function page() {
           <tbody>
             { (
               customers?.customers?.map((customer,index) => (
-                <tr key={customer.customer_id} className={index % 2 ? " " : "bg-gray-100"}>
+                <tr key={customer.customer_id} className={`cursor-pointer ${
+                  index % 2 ? "bg-gray-100" : ""
+                } hover:bg-gray-200`} onClick={() => router.push(`/customers/${customer.customer_id}`)}>
                   <td className="py-4 px-2 border border-gray-300">{customer.customer_id}</td>
                   <td className="py-4 px-2 border border-gray-300">{customer.customer_first_name}</td>
                   <td className="py-4 px-2 border border-gray-300">{customer.customer_last_name}</td>
@@ -142,9 +162,7 @@ function page() {
                   <td className="py-4 px-2 border border-gray-300">{customer.customer_phone_number}</td>
                   <td className="py-4 px-2 border border-gray-300">{new Date(customer.customer_added_date).toLocaleDateString()}</td>
                   <td className="py-4 px-2 border border-gray-300">{customer.active_customer_status?"Yes":"No"}</td>
-                  <td className="py-4 px-1 sm:px-2 border border-gray-300">
                    
-                  </td>
                 </tr>
               ))
             ) }

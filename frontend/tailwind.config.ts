@@ -20,6 +20,9 @@ const config: Config = {
         customeRed:"#EE0D09"
         
       },
+      boxShadow: {
+        'full': '0 0 13px 0 rgba(0, 0, 0, 0.1)', // Custom shadow for all four sides
+      },
     },
    
   },

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {OrderResponse,customerResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse } from "@/types"
+import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse } from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -27,7 +27,7 @@ export const apiSlice = createApi({
     getOrders: builder.query<OrderResponse,{page:number; limit:number}>({
       query: ({page,limit}) => `/orders?page=${page}&limit=${limit}`,
     }),
-    getcustomersByKeyword: builder.query<customerResponse,{keyword:string}>({
+    getcustomersByKeyword: builder.query<customersResponse,{keyword:string}>({
       query:({keyword})=>`/customer/search?keyword=${keyword}`
     }),
     getVehiclesByCustomerId: builder.query<vehicleResponse,{customer_id:number}>({
@@ -54,8 +54,18 @@ export const apiSlice = createApi({
     getCustomers:builder.query<getCustomersResponse,{page:number; limit:number}>({
       query:({page,limit})=>`/customer?page=${page}&limit=${limit}`
     
-    })
-  
+    }),
+    addVehicle: builder.mutation<void,vehicle>({
+      query:(newVehicle)=>({ 
+        url:"/vehicle",
+        method:"POST",
+        body:newVehicle
+      })
+    }),
+    getOrdersPerCustomer: builder.query<OrderResponse,{customer_id:number}>({
+      query:({customer_id})=>`/orders/customer/${customer_id}`}),
+      getcustomerById: builder.query<customerResponse,{customer_id:number}>({
+        query:({customer_id})=>`/customer/${customer_id}`}),
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery } = apiSlice;
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery } = apiSlice;

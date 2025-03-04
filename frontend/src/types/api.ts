@@ -30,6 +30,9 @@ export interface LoginSuccessResponse {
   employee_name: string;
 
   }
+            
+           
+
   
   export interface OrderResponse{
     status: string;
@@ -38,6 +41,7 @@ export interface LoginSuccessResponse {
   }
   
   export interface customer{
+    customer:{
     customer_id: number;
     customer_email: string;
     customer_phone_number: string;
@@ -46,24 +50,30 @@ export interface LoginSuccessResponse {
     customer_first_name: string;
     customer_last_name: string;
     active_customer_status: number;
-
+    }
   }
 
-  export interface customerResponse{
+export interface customerResponse{
+  status: string;
+  message: string;
+  data?: customer;
+} 
+
+
+  export interface customersResponse{
     customers:customer[]
 
   }
 
- 
 
   export interface vehicle{
-    vehicle_id: number;
+    vehicle_id?: number;
    customer_id: number;
-   vehicle_year: number;
+   vehicle_year: string;
     vehicle_make: string;
     vehicle_model: string;
     vehicle_type: string;
-    vehicle_mileage: number;
+    vehicle_mileage: string;
     vehicle_tag: string;
     vehicle_serial: string;
     vehicle_color: string;
@@ -116,6 +126,12 @@ export interface LoginSuccessResponse {
     page: number;
     limit: number;
     customers: customer[];
+  }
+
+  export interface getVehiclePerCustomerResponse {
+    status: string;
+    message: string;
+    data?: vehicle[];
   }
   
   

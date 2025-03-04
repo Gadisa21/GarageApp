@@ -18,9 +18,9 @@ const AdminMenu = () => {
           <li className="p-5 border-gray-500 border-b"><Link href="/neworder">New Order</Link></li>
           <li className="p-5 border-gray-500 border-b"><Link href="/addemployee">Add Employee</Link></li>
           <li className="p-5 border-gray-500 border-b"><Link href="/employee">Employee</Link></li>
-          <li className="p-5 border-gray-500 border-b"><Link href="addCustomer">Add Customer</Link></li>
-          <li className="p-5 border-gray-500 border-b"><Link href="customers">Customers</Link></li>
-          <li className="p-5 border-gray-500 border-b"><Link href="services">Services</Link></li>
+          <li className="p-5 border-gray-500 border-b"><Link href="/addCustomer">Add Customer</Link></li>
+          <li className="p-5 border-gray-500 border-b"><Link href="/customers">Customers</Link></li>
+          <li className="p-5 border-gray-500 border-b"><Link href="/services">Services</Link></li>
         </ul>
       </div>
     </div>
