@@ -175,4 +175,23 @@ export interface employee {
     employees: employee[];
   }
   
+
+
+  export interface updateEmployeeInfoRequest{
+    employee_id: number;
+    employee_email: string;
+    employee_first_name: string;
+    employee_last_name: string;
+    employee_phone: string;
+    company_role_id: number;
+    active_employee: number;
+
+  }
+
+  export interface getEmployeeByIdResponse{
+    status: string;
+    error: string;
+    data?: employee[];
+  }
+  
   
