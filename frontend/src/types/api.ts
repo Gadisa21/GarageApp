@@ -194,4 +194,11 @@ export interface employee {
     data?: employee[];
   }
   
-  
+  export interface addEmployeeRequest{
+    employee_email: string;
+    employee_password: string;
+    employee_first_name: string;
+    employee_last_name: string;
+    employee_phone: string;
+    company_role_id: number;
+  }
