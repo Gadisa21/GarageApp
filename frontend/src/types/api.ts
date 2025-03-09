@@ -158,7 +158,7 @@ export interface Customer{
 
 
 export interface employee {
- empoyee_id: number;
+ employee_id: number;
   employee_email: string;
   active_employee: number;
   added_date: string;

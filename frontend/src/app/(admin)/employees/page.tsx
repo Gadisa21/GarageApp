@@ -1,13 +1,18 @@
 "use client"
 import React,{useState} from 'react'
-import { useGetEmpoyeesQuery } from '@/features/api/apiSlice'
+import { useGetEmpoyeesQuery,useDeleteEmployeeMutation } from '@/features/api/apiSlice'
 import {useRouter} from "next/navigation"
 import { FaUserEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import ConfirmationModal from '@/components/ConfirmationModal';
 
 function page() {
+  const router = useRouter()
     const [page, setPage] = useState(1);
-
+    const [selectedEmployee, setSelectedEmployee] = useState<number | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [deleteEmployee] = useDeleteEmployeeMutation();
+    
     const { data:employees, isLoading, isError,error } = useGetEmpoyeesQuery({ page, limit: 10 });
 
     const handleNextPage = () => {
@@ -21,6 +26,19 @@ function page() {
           setPage(page - 1);
         }
       }
+
+      const handleDeleteClick = (employeeId: number) => {
+        setSelectedEmployee(employeeId);
+        setIsModalOpen(true);
+      };
+
+      const handleConfirmDelete = async () => {
+        if (selectedEmployee !== null) {
+          await deleteEmployee({ employee_id: selectedEmployee });
+          setIsModalOpen(false);
+          setSelectedEmployee(null);
+        }
+      };
 
       if (isLoading) return <div>Loading...</div>;
   if (isError){
@@ -54,7 +72,7 @@ function page() {
           <tbody>
             { (
               employees.employees.map((employee,index) => (
-                <tr key={employee.empoyee_id} className={`cursor-pointer ${
+                <tr key={employee.employee_id} className={`cursor-pointer ${
                   index % 2 ? "bg-gray-100" : ""
                 } hover:bg-gray-200`} >
                   <td className="py-4 px-2 border border-gray-300">{employee.active_employee?"Yes":"No"}</td>
@@ -66,8 +84,8 @@ function page() {
                   <td className="py-4 px-2 border border-gray-300">{employee.company_role_id==2?"Admin":"Employee"}</td>
                   <td className="py-4 px-2 border border-gray-300">
   <div className="flex justify-center gap-8">
-    <FaUserEdit size={25}  />
-    <MdDelete size={25}  />
+    <FaUserEdit size={25}  onClick={()=>router.push(`/employees/edit/${employee.employee_id}`)} />
+    <MdDelete size={25} onClick={() => handleDeleteClick(employee.employee_id)}  />
   </div>
 </td>
 
@@ -97,6 +115,13 @@ function page() {
               <button className=" btn w-36 btn-outline border rounded-l border-gray-300 px-4 py-3 text-customBlue font-semibold " onClick={handlePreviousPage}>Previous page</button>
               <button className=" btn w-36 btn-outline border rounded-r border-gray-300 px-4 py-3 text-customBlue font-semibold" onClick={handleNextPage}>Next</button>
             </div></>)}
+
+            <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        message="Are you sure you want to delete this employee?"
+      />
     </div>
   )
 }

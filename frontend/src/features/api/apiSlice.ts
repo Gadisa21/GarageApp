@@ -86,6 +86,11 @@ export const apiSlice = createApi({
       getEmployeeById: builder.query<getEmployeeByIdResponse,{employee_id:number}>({
         query:({employee_id})=>`/employee/${employee_id}`
       }),
+      deleteEmployee: builder.mutation<void,{employee_id:number}>({
+        query:({employee_id})=>({
+          url:`/employee/${employee_id}`,
+          method:"DELETE"
+        })})
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery } = apiSlice;  //updateEmployeeInfo
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation } = apiSlice;  //updateEmployeeInfo
