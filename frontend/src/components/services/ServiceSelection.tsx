@@ -13,7 +13,7 @@ function ServiceSelection({ selectedServices, onServiceSelect }: ServiceSelectio
   if (error) return <div>Error</div>
   console.log("data",data)
   return (
-    <div className="shadow-md rounded-sm  border border-gray-200 my-5  px-4 py-5">
+    <div className="shadow-md rounded-sm  border border-gray-200 my-5  px-4 py-5" >
 
       
 <p className="text-2xl font-bold text-customBlue mb-2 ">

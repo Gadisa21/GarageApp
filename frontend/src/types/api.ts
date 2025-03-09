@@ -59,6 +59,13 @@ export interface customerResponse{
   data?: customer;
 } 
 
+
+ 
+
+
+
+
+
 export interface Customer{
   customer_id: number;
   customer_email: string;
@@ -96,7 +103,12 @@ export interface Customer{
     data?: vehicle[];
   }
 
-  export interface service{
+  export interface service {
+service_name: string;
+service_description:string
+  }
+
+  export interface serviceUpdate{
     service_id: number;
     service_name: string;
     service_description: string;
@@ -106,7 +118,7 @@ export interface Customer{
   export interface serviceResponse{
     status: string;
     
-    services: service[];
+    services: serviceUpdate[];
   }
 
   export interface orderService {

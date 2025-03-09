@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse,updateCustomerInfoRequest,employeeResponse,
-  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest } from "@/types"
+  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest,service } from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -37,6 +37,14 @@ export const apiSlice = createApi({
     getServices: builder.query<serviceResponse,void>({
       query:()=>"/service"
     }),
+    createService:builder.mutation<void,service>({
+      query:(newService)=>({
+        url:'/service',
+        method:'POST',
+        body:newService
+      })
+    })
+    ,
     createOrder: builder.mutation<void,CreateOrderRequest>({
       query:(newOrder)=>({
         url:"/order",
@@ -99,4 +107,4 @@ export const apiSlice = createApi({
           body:newEmployee}),}),
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation } = apiSlice;  //updateEmployeeInfo
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation,useCreateServiceMutation } = apiSlice;  //updateEmployeeInfo

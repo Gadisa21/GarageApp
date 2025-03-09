@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { customer,vehicle,CreateOrderRequest } from "@/types";
+import { Customer,vehicle,CreateOrderRequest } from "@/types";
 import { skipToken } from "@reduxjs/toolkit/query/react";
 import ServiceSelection from "@/components/services/ServiceSelection";
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ import { PulseLoader } from "react-spinners";
 
 function Page() {
   const [keyword, setKeyword] = useState("");
-  const [selectedCustomer, setSelectedCustomer] = useState<customer | null>(
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null
   );
   const [selectedVehicle, setSelectedVehicle] = useState<vehicle | null>(null);
@@ -80,7 +80,7 @@ function Page() {
     const newOrder:CreateOrderRequest={
       employee_id:employee_id!,
       customer_id:selectedCustomer!.customer_id,
-      vehicle_id:selectedVehicle!.vehicle_id,
+      vehicle_id:selectedVehicle?.vehicle_id!,
       order_total_price:price,
       additional_request:additionalRequest || undefined,
       order_services:selectedServices.map((service_id)=>({service_id}))
@@ -228,12 +228,12 @@ function Page() {
                       </tr>
                     </thead>
                     <tbody>
-                      {vehicles.data.map((vehicle) => (
+                      {vehicles.data.map((vehicle,index) => (
                         <tr
                           key={vehicle.vehicle_id}
                           onClick={() => setSelectedVehicle(vehicle)}
                           className={`cursor-pointer ${
-                            vehicle.vehicle_id % 2 ? "bg-gray-100" : ""
+                            index % 2 ? "bg-gray-100" : ""
                           } hover:bg-gray-200`}
                         >
                           <td className="py-4 px-4 border border-gray-300">{vehicle.vehicle_year}</td>
