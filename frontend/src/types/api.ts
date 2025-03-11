@@ -60,9 +60,6 @@ export interface customerResponse{
 } 
 
 
- 
-
-
 
 
 
@@ -185,6 +182,11 @@ export interface employee {
     page: number;
     limit: number;
     employees: employee[];
+  }
+  export interface getServiceByIdResponse{
+    status?: string;
+    service?:serviceUpdate;
+    error?: string;
   }
   
 

@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse,updateCustomerInfoRequest,employeeResponse,
-  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest,service } from "@/types"
+  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest,service,serviceUpdate ,getServiceByIdResponse} from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -37,14 +37,31 @@ export const apiSlice = createApi({
     getServices: builder.query<serviceResponse,void>({
       query:()=>"/service"
     }),
+    getServiceById: builder.query<getServiceByIdResponse,{service_id:number}>({
+      query:({service_id})=>`/service/${service_id}`})
+    ,
+   
     createService:builder.mutation<void,service>({
       query:(newService)=>({
         url:'/service',
         method:'POST',
         body:newService
       })
-    })
-    ,
+    }),
+    updateService:builder.mutation<void,serviceUpdate>({
+      query:(newService)=>({
+        url:'/service',
+        method:'PUT',
+        body:newService
+      })
+    }),
+    deleteService:builder.mutation<void,{service_id:number}>({
+      query:({service_id})=>({
+        url:`/service/${service_id}`,
+        method:"DELETE"
+      })
+    }),
+    
     createOrder: builder.mutation<void,CreateOrderRequest>({
       query:(newOrder)=>({
         url:"/order",
@@ -100,11 +117,11 @@ export const apiSlice = createApi({
           url:`/employee/${employee_id}`,
           method:"DELETE"
         })}),
-        addEmployee: builder.mutation<void,addEmployeeRequest>({
+      addEmployee: builder.mutation<void,addEmployeeRequest>({
           query:(newEmployee)=>({
             url:"/employee",
           method:"POST",
           body:newEmployee}),}),
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation,useCreateServiceMutation } = apiSlice;  //updateEmployeeInfo
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation,useCreateServiceMutation,useUpdateServiceMutation,useDeleteServiceMutation,useGetServiceByIdQuery } = apiSlice;  
