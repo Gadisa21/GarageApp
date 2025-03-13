@@ -1,5 +1,4 @@
 
-
 const {query,getConnection}=require("../config/db.config")
 const bcrypt=require("bcrypt")
 
@@ -29,7 +28,7 @@ async function createEmployee(employee) {
 
         // First query: Insert into employee table
         const query1 = "INSERT INTO employee(employee_email, active_employee) VALUES(?,?)";
-        const [rows1] = await connection.query(query1, [employee.employee_email, employee.active_employee]);
+        const [rows1] = await connection.query(query1, [employee.employee_email,1]);
 
         if (rows1.affectedRows !== 1) {
             throw new Error('Failed to insert employee.');

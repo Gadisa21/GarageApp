@@ -17,7 +17,10 @@ const vehicleRouter=require("./vehicle.routes")
 
 const orderRouter=require("./order.routes")
 
+//import dashboard routes
+const dashboardRouter=require("./dashboard.routes")
 
+router.use(dashboardRouter)
 router.use(installRouter)
 
 router.use(loginRouter)
