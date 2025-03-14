@@ -1,18 +1,20 @@
-import AdminMenu from "@/components/adminMenu/AdminMenu"
-import KpiSection from "@/components/KpiSection"
-import OrderTrends from "@/components/OrderTrends"
-import RevenueBreakdown from "@/components/RevenueBreakdown"
+import KpiSection from "@/components/KpiSection";
+import OrderTrends from "@/components/OrderTrends";
+import RevenueBreakdown from "@/components/RevenueBreakdown";
 
-
-const page = () => {
+const Dashboard = () => {
   return (
-    <div className="p-2 md:p-6  space-y-6">
+    <div className="space-y-6">
+      {/* KPI Section (Always Full Width) */}
       <KpiSection />
-      <OrderTrends />
-      <RevenueBreakdown />
-     
-    </div>
-  )
-}
 
-export default page
+      {/* Order Trends Chart (Full Width) */}
+      <OrderTrends />
+
+      {/* Revenue Breakdown Chart (Full Width) */}
+      <RevenueBreakdown />
+    </div>
+  );
+};
+
+export default Dashboard;
