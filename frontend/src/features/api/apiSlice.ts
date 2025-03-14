@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {OrderResponse,customersResponse,vehicleResponse,serviceResponse,CreateOrderRequest,AddCustomerRequest,getCustomersResponse,vehicle,customerResponse,updateCustomerInfoRequest,employeeResponse,
-  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest,service,serviceUpdate ,getServiceByIdResponse} from "@/types"
+  updateEmployeeInfoRequest,getEmployeeByIdResponse,addEmployeeRequest,service,serviceUpdate ,getServiceByIdResponse,kpis,orderTrand,revenue} from "@/types"
 import {RootState} from "@/store/store"
 
 
@@ -122,6 +122,14 @@ export const apiSlice = createApi({
             url:"/employee",
           method:"POST",
           body:newEmployee}),}),
+      getKpis: builder.query<kpis,void>({
+        query:()=>`/dashboard/kpis`,
+      }),
+      getOrderTrend: builder.query<orderTrand[],void>({
+        query:()=>`/dashboard/order-trends`,
+      }),
+      getRevenue: builder.query<revenue[],void>({
+        query:()=>`/dashboard/revenue-breakdown`,}),
 }),});
 
-export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation,useCreateServiceMutation,useUpdateServiceMutation,useDeleteServiceMutation,useGetServiceByIdQuery } = apiSlice;  
+export const { useGetOrdersQuery,useGetcustomersByKeywordQuery ,useGetVehiclesByCustomerIdQuery,useGetServicesQuery, useCreateOrderMutation,useAddCustomerMutation,useGetCustomersQuery,useAddVehicleMutation,useGetOrdersPerCustomerQuery,useGetcustomerByIdQuery,useUpdateCutomerInfoMutation,useGetEmpoyeesQuery,useEmployeeUpdateInfoMutation,useGetEmployeeByIdQuery,useDeleteEmployeeMutation,useAddEmployeeMutation,useCreateServiceMutation,useUpdateServiceMutation,useDeleteServiceMutation,useGetServiceByIdQuery,useGetKpisQuery,useGetOrderTrendQuery,useGetRevenueQuery } = apiSlice;  

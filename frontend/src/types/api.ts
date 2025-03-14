@@ -216,3 +216,19 @@ export interface employee {
     employee_phone: string;
     company_role_id: number;
   }
+
+  export interface revenue{
+    month: string;
+    revenue:string;
+  }
+
+ export interface kpis{
+  total_customers: number;
+  active_orders: number;
+  total_revenue: number;
+ }
+
+ export interface orderTrand{
+month: string;
+orders:number
+ }

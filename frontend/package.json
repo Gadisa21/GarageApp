@@ -23,6 +23,7 @@
     "react-icons": "^5.4.0",
     "react-redux": "^9.2.0",
     "react-spinners": "^0.15.0",
+    "recharts": "^2.15.1",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
